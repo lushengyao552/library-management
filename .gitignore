@@ -1,12 +1,19 @@
 # Maven
 target/
 !.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 # IDE
 .idea/
 *.iml
 *.iws
 *.ipr
+.vscode/
+.project
+.classpath
+.settings/
+.factorypath
 
 # OS
 .DS_Store
@@ -14,3 +21,18 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
+
+# Env / secrets
+.env
+application-local.yml
+application-local.properties
+*.pem
+*.key
+
+# Frontend (if any)
+node_modules/
+dist/
+
+# Docker
+docker-data/
