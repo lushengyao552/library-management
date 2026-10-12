@@ -7,6 +7,7 @@ import com.example.library.mapper.ChatMessageMapper;
 import com.example.library.mapper.ChatSessionMapper;
 import com.example.library.service.ai.tool.BookTools;
 import com.example.library.service.ai.tool.KnowledgeTools;
+import com.example.library.service.ai.tool.PlanTools;
 import com.example.library.service.ai.tool.StudyPlanTools;
 import com.example.library.util.UserContext;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class AiChatService {
     private final BookTools bookTools;
     private final KnowledgeTools knowledgeTools;
     private final StudyPlanTools studyPlanTools;
+    private final PlanTools planTools;
 
     @Value("${spring.ai.openai.api-key:}")
     private String apiKey;
@@ -52,9 +54,11 @@ public class AiChatService {
             try {
                 answer = chatClientBuilder.build()
                         .prompt()
-                        .system("你是智学校园的 AI 学习助手，回答简洁、准确。需要查图书或借阅记录时调用对应工具。")
+                        .system("你是「智学伴」个性化学习规划智能体。用户说想学什么，你帮他规划学习路径。" +
+                                "你可以调用工具查图书、查用户正在学的计划、查学习点详情。" +
+                                "回答要简洁，有针对性，不要空话。")
                         .user(request.getMessage())
-                        .tools(bookTools, knowledgeTools, studyPlanTools)
+                        .tools(bookTools, knowledgeTools, studyPlanTools, planTools)
                         .advisors(a -> a.param("userId", userId))
                         .call()
                         .content();
