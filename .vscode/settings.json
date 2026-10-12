@@ -1,3 +1,11 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+  "cline.apiProvider": "openai",
+  "cline.openAiBaseUrl": "https://api.deepseek.com/v1",
+  "cline.openAiModelId": "deepseek-chat",
+  "cline.temperature": 0.7,
+  "cline.maxTokens": 4096,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "editor.formatOnSave": true,
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

@@ -55,6 +55,7 @@ public class AiChatService {
                         .system("你是智学校园的 AI 学习助手，回答简洁、准确。需要查图书或借阅记录时调用对应工具。")
                         .user(request.getMessage())
                         .tools(bookTools, knowledgeTools, studyPlanTools)
+                        .advisors(a -> a.param("userId", userId))
                         .call()
                         .content();
             } catch (Exception e) {

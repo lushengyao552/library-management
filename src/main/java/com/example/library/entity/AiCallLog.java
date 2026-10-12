@@ -19,9 +19,12 @@ public class AiCallLog implements Serializable {
     private Long sessionId;
     private Long userId;
     private String model;
+    private String tier;
+    private String scene;
     private Integer promptTokens;
     private Integer completionTokens;
     private Integer totalTokens;
+    private java.math.BigDecimal cost;
     private Long llmDuration;
     private Long toolDuration;
     private Long totalDuration;
@@ -29,6 +32,7 @@ public class AiCallLog implements Serializable {
     private String status;
     private String errorMsg;
     private String userQuery;
+    private Integer fallback;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }

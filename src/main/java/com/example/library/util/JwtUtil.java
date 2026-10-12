@@ -41,11 +41,12 @@ public class JwtUtil {
 
     public Claims getClaimsFromToken(String token) {
         try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
+            // jjwt 0.13：parserBuilder() 已移除，改用 Jwts.parser().verifyWith()
+            return Jwts.parser()
+                    .verifyWith(getSigningKey())
                     .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .parseSignedClaims(token)
+                    .getPayload();
         } catch (Exception e) {
             log.warn("解析token失败: {}", e.getMessage());
             return null;

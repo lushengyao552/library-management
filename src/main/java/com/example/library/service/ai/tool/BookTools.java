@@ -5,11 +5,11 @@ import com.example.library.entity.Book;
 import com.example.library.entity.BorrowRecord;
 import com.example.library.repository.BookRepository;
 import com.example.library.repository.BorrowRecordRepository;
-import com.example.library.util.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
+import org.springframework.ai.chat.model.ToolContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -47,8 +47,8 @@ public class BookTools {
     }
 
     @Tool(description = "查询当前登录用户正在借阅（未归还）的图书记录")
-    public List<BorrowResult> getActiveBorrows() {
-        Long userId = UserContext.getCurrentUserId();
+    public List<BorrowResult> getActiveBorrows(ToolContext toolContext) {
+        Long userId = (Long) toolContext.getContext().get("userId");
         if (userId == null) {
             throw new IllegalStateException("未登录");
         }
@@ -58,7 +58,10 @@ public class BookTools {
                         .in(BorrowRecord::getStatus, "BORROWED", "OVERDUE")
         );
         return records.stream().map(r -> new BorrowResult(
-                r.getBookId(), r.getBorrowDate(), r.getDueDate(), r.getStatus(), r.getFine()
+                r.getBookId(),
+                r.getBorrowDate() == null ? null : r.getBorrowDate().toString(),
+                r.getDueDate() == null ? null : r.getDueDate().toString(),
+                r.getStatus(), r.getFine()
         )).collect(Collectors.toList());
     }
 

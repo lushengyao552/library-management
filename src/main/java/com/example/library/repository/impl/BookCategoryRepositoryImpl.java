@@ -1,7 +1,7 @@
 package com.example.library.repository.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.repository.AbstractRepository;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.example.library.entity.Book;
 import com.example.library.entity.BookCategory;
 import com.example.library.mapper.BookCategoryMapper;
@@ -12,9 +12,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class BookCategoryRepositoryImpl extends AbstractRepository<BookCategoryMapper, BookCategory> implements BookCategoryRepository {
+public class BookCategoryRepositoryImpl extends ServiceImpl<BookCategoryMapper, BookCategory> implements BookCategoryRepository {
 
     private final BookMapper bookMapper;
+    private final BookCategoryMapper bookCategoryMapper;
 
     @Override
     public Long countByCategoryId(Long categoryId) {

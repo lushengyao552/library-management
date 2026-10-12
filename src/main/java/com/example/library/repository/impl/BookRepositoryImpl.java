@@ -1,6 +1,6 @@
 package com.example.library.repository.impl;
 
-import com.baomidou.mybatisplus.extension.repository.AbstractRepository;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.example.library.entity.Book;
 import com.example.library.mapper.BookMapper;
 import com.example.library.repository.BookRepository;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class BookRepositoryImpl extends AbstractRepository<BookMapper, Book> implements BookRepository {
+public class BookRepositoryImpl extends ServiceImpl<BookMapper, Book> implements BookRepository {
 
     private final BookMapper bookMapper;
 

@@ -4,11 +4,11 @@ import com.example.library.entity.StudyPlan;
 import com.example.library.entity.StudyTask;
 import com.example.library.mapper.StudyPlanMapper;
 import com.example.library.mapper.StudyTaskMapper;
-import com.example.library.util.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
+import org.springframework.ai.chat.model.ToolContext;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -33,9 +33,10 @@ public class StudyPlanTools {
             @ToolParam(description = "考试科目名称，如：Java、数据库、计算机网络") String subject,
             @ToolParam(description = "考试日期，格式 YYYY-MM-DD") String examDate,
             @ToolParam(description = "每天可学习小时数，如：2.0") Double dailyHours,
-            @ToolParam(description = "薄弱知识点，如：SQL连接查询、JVM内存模型", required = false) String weakness) {
+            @ToolParam(description = "薄弱知识点，如：SQL连接查询、JVM内存模型", required = false) String weakness,
+            ToolContext toolContext) {
 
-        Long userId = UserContext.getCurrentUserId();
+        Long userId = (Long) toolContext.getContext().get("userId");
         if (userId == null) {
             throw new IllegalStateException("未登录");
         }
@@ -85,8 +86,8 @@ public class StudyPlanTools {
     }
 
     @Tool(description = "查询当前用户的学习计划列表")
-    public List<PlanSummary> listMyPlans() {
-        Long userId = UserContext.getCurrentUserId();
+    public List<PlanSummary> listMyPlans(ToolContext toolContext) {
+        Long userId = (Long) toolContext.getContext().get("userId");
         List<StudyPlan> plans = studyPlanMapper.selectList(
                 new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<StudyPlan>()
                         .eq(StudyPlan::getUserId, userId)
